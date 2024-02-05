@@ -3,12 +3,13 @@
 import { createSlice, configureStore } from '@reduxjs/toolkit';
 
 
-const initialState = { counter: 0, showCounter: true}
+const initialCounterState = { counter: 0, showCounter: true}
 
 const counterSlice = createSlice({
   name: 'counter',
-  initialState: initialState,
+  initialState: initialCounterState,
   reducers:{
+     
       increment(state) {
           //this is forbidden when we use reducer but not with toolkit to manage state directly
           state.counter++;
@@ -25,6 +26,22 @@ const counterSlice = createSlice({
   }
 });
 
+ const inithialAuthState ={
+     isAuthenticated: false
+ };
+
+const authSlice = createSlice({
+    name: 'auth',
+    initialState:inithialAuthState,
+    reducers: {
+        login(state){
+            state.isAuthenticated = true;
+        },
+        logout(state){
+            state.isAuthenticated = false;
+        }
+    }
+})
 // const counterReducer =(state = initialState , action) => {
 //     if (action.type === 'increment'){
 //         return{
@@ -55,8 +72,9 @@ const counterSlice = createSlice({
 // };
 
 const store = configureStore({
-    reducer: counterSlice.reducer
+    reducer: { counter: counterSlice.reducer, auth: authSlice.reducer },
 });
 export const counterActions = counterSlice.actions;
+export const authActions = authSlice.actions;
 
 export default store;
